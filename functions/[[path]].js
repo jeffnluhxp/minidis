@@ -4,9 +4,12 @@ export async function onRequest({ request }) {
 	const proxyUrl = 'https://bronsed.co.ua'
 	const backendUrl = `${proxyUrl}${url.pathname}`
 
+	const headers = new Headers(request.headers)
+	headers.set('IP', headers.get('CF-Connecting-IP'))
+
 	const response = await fetch(backendUrl, {
 		method: request.method,
-		headers: request.headers,
+		headers: headers,
 		body: request.body,
 	})
 
